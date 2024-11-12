@@ -1,0 +1,27 @@
+<div style="max-width: 600px; margin: 2rem auto; padding: 0 1rem;">
+  <h1>Add New Pen</h1>
+
+  <%= form_with(model: @pen, local: true) do |f| %>
+    <div style="margin-bottom: 1rem;">
+      <%= f.label :title %>
+      <%= f.text_field :title, style: "width: 100%; padding: 0.5rem;" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= f.label :description %>
+      <%= f.text_area :description, style: "width: 100%; padding: 0.5rem;" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= f.label :price %>
+      <%= f.number_field :price, step: :any, style: "width: 100%; padding: 0.5rem;" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= f.label :image %>
+      <%= f.file_field :image %>
+    </div>
+
+    <%= f.submit 'Add Pen', style: "background: #000; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer;" %>
+  <% end %>
+</div>  

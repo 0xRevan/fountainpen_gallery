@@ -1,0 +1,38 @@
+<%# this is our main gallery page - like a display case for all our pens %>
+<h1>My Fountain Pen Collection</h1>
+
+<div class="gallery">
+  <%# loop through each pen - like picking them up one by one %>
+  <% @pens.each do |pen| %>
+    <div class="pen-card">
+      <%# show the pen's photo if it has one %>
+      <% if pen.image.attached? %>
+        <%= image_tag pen.image, class: "pen-image", alt: pen.title %>
+      <% end %>
+      
+      <div class="pen-details">
+        <h2><%= pen.title %></h2>
+        <%# price with fancy currency formatting %>
+        <div class="pen-price"><%= number_to_currency(pen.price) %></div>
+        <%# show some of the description, but not too much %>
+        <p><%= truncate(pen.description, length: 100) %></p>
+        
+        <%# buttons for doing stuff with this pen %>
+        <div class="actions">
+          <%= link_to 'View Details', pen_path(pen), class: "button button-primary" %>
+          <%= link_to 'Edit', edit_pen_path(pen), class: "button button-edit" %>
+          <%# delete button with a "are you sure?" message %>
+          <%= button_to 'Delete', 
+              pen_path(pen), 
+              method: :delete,
+              class: "button button-danger",
+              form: { 
+                data: { 
+                  turbo_confirm: 'You sure about letting this pen go?' 
+                } 
+              } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

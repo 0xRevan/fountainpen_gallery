@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fountain Pen Gallery</title>
+    <%# making sure our site looks good on phones too! %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <%# security stuff - like a bouncer checking IDs %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <%# our site's little logo - shows up in browser tabs %>
+    <link rel="icon" type="image/svg+xml" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSflFiGj3byQBuLbG1P7ev2r32QvKQv29EAXw&s viewBox='0 0 24 24'><path d='M12 19l7-7 3 3-7 7-3-3z'/><path d='M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z'/></svg>">
+
+    <%= stylesheet_link_tag "application" %>
+    <style>
+      /* reset everything - like clearing your desk before starting work */
+      * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0; 
+      }
+
+      /* basic styles - like putting on your fancy clothes */
+      body { 
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f5f5;
+      }
+
+      /* fancy top bar - where all the navigation lives */
+      .nav {
+        background: #2c3e50;  /* nice deep blue, like pen ink */
+        padding: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      /* links in the nav - keeping them clean and clickable */
+      .nav a {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      /* when you hover over a link - like highlighting a pen you're interested in */
+      .nav a:hover {
+        background-color: #34495e;
+      }
+
+      /* main content area - keeping everything centered and tidy */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      /* grid for our pens - like a fancy display case */
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+
+      /* each pen's card - like a little spotlight for each pen */
+      .pen-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+      }
+
+      /* make cards pop up when you hover - like picking up a pen to examine it */
+      .pen-card:hover {
+        transform: translateY(-4px);
+      }
+
+      /* pen images - making sure they all look good */
+      .pen-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      /* where we keep the pen's details */
+      .pen-details {
+        padding: 1.5rem;
+      }
+
+      /* fancy buttons - like ink bottles, each with their own color */
+      .button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      /* different button flavors */
+      .button-primary { 
+        background: #3498db; 
+        color: white; 
+      }
+
+      .button-danger { 
+        background: #e74c3c; 
+        color: white; 
+      }
+
+      /* forms - making them look clean and easy to fill out */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      /* when someone's typing in a form - give it a little highlight */
+      .form-input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+      }
+
+      /* success messages - like a little celebration when something works */
+      .notice {
+        background: #d4edda;
+        border-left: 4px solid #2ecc71;
+        color: #155724;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 6px;
+      }
+
+      /* making sure everything looks good on phones too */
+      @media (max-width: 768px) {
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <%# our navigation bar - like a map for the site %>
+    <nav class="nav">
+      <%= link_to 'Fountain Pen Gallery', root_path %>
+      <%= link_to '+ Add New Pen', new_pen_path %>
+    </nav>
+
+    <div class="container">
+      <%# show any messages - like notifications about what just happened %>
+      <% if notice %>
+        <div class="notice"><%= notice %></div>
+      <% end %>
+      
+      <%= yield %>
+    </div>
+  </body>
+</html>
