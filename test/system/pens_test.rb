@@ -3,43 +3,27 @@ require "application_system_test_case"
 class PensTest < ApplicationSystemTestCase
   setup do
     @pen = pens(:one)
+    @user = users(:one)
   end
 
   test "visiting the index" do
     visit pens_url
-    assert_selector "h1", text: "Pens"
+    assert_selector "h1", text: "My Fountain Pen Collection"
   end
 
-  test "should create pen" do
+  test "viewing a pen" do
     visit pens_url
-    click_on "New pen"
+    click_on "View", match: :first
 
-    fill_in "Description", with: @pen.description
-    fill_in "Price", with: @pen.price
-    fill_in "Title", with: @pen.title
-    click_on "Create Pen"
-
-    assert_text "Pen was successfully created"
-    click_on "Back"
+    assert_selector ".pen-show-title", text: @pen.title
   end
 
-  test "should update Pen" do
-    visit pen_url(@pen)
-    click_on "Edit this pen", match: :first
+  test "searching for a pen" do
+    visit pens_url
+    fill_in "query", with: "Pilot"
+    click_on "Search"
 
-    fill_in "Description", with: @pen.description
-    fill_in "Price", with: @pen.price
-    fill_in "Title", with: @pen.title
-    click_on "Update Pen"
-
-    assert_text "Pen was successfully updated"
-    click_on "Back"
-  end
-
-  test "should destroy Pen" do
-    visit pen_url(@pen)
-    click_on "Destroy this pen", match: :first
-
-    assert_text "Pen was successfully destroyed"
+    assert_text "Pilot Metropolitan"
+    assert_no_text "LAMY Safari"
   end
 end

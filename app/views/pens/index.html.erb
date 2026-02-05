@@ -1,38 +1,67 @@
-<%# this is our main gallery page - like a display case for all our pens %>
-<h1>My Fountain Pen Collection</h1>
+<div class="page-header">
+  <h1>My Fountain Pen Collection</h1>
 
-<div class="gallery">
-  <%# loop through each pen - like picking them up one by one %>
-  <% @pens.each do |pen| %>
-    <div class="pen-card">
-      <%# show the pen's photo if it has one %>
-      <% if pen.image.attached? %>
-        <%= image_tag pen.image, class: "pen-image", alt: pen.title %>
-      <% end %>
-      
-      <div class="pen-details">
-        <h2><%= pen.title %></h2>
-        <%# price with fancy currency formatting %>
-        <div class="pen-price"><%= number_to_currency(pen.price) %></div>
-        <%# show some of the description, but not too much %>
-        <p><%= truncate(pen.description, length: 100) %></p>
-        
-        <%# buttons for doing stuff with this pen %>
-        <div class="actions">
-          <%= link_to 'View Details', pen_path(pen), class: "button button-primary" %>
-          <%= link_to 'Edit', edit_pen_path(pen), class: "button button-edit" %>
-          <%# delete button with a "are you sure?" message %>
-          <%= button_to 'Delete', 
-              pen_path(pen), 
-              method: :delete,
-              class: "button button-danger",
-              form: { 
-                data: { 
-                  turbo_confirm: 'You sure about letting this pen go?' 
-                } 
-              } %>
-        </div>
-      </div>
-    </div>
+  <%= form_with url: pens_path, method: :get, class: "search-form", data: { turbo_action: "advance" } do |f| %>
+    <%= f.search_field :query, value: params[:query], class: "search-input", placeholder: "Search pens..." %>
+    <%= f.submit "Search", class: "btn btn-primary btn-sm" %>
+    <% if params[:query].present? %>
+      <%= link_to "Clear", pens_path, class: "btn btn-outline btn-sm" %>
+    <% end %>
   <% end %>
 </div>
+
+<% if @pens.any? %>
+  <div class="gallery">
+    <% @pens.each do |pen| %>
+      <div class="pen-card">
+        <% if pen.image.attached? %>
+          <%= image_tag pen.image.variant(resize_to_limit: [600, 400]), class: "pen-card-image", alt: pen.title %>
+        <% else %>
+          <div class="pen-card-placeholder">No image</div>
+        <% end %>
+
+        <div class="pen-card-body">
+          <h2 class="pen-card-title"><%= pen.title %></h2>
+          <div class="pen-card-price"><%= number_to_currency(pen.price) %></div>
+          <p class="pen-card-description"><%= truncate(pen.description, length: 100) %></p>
+
+          <div class="pen-card-actions">
+            <%= link_to "View", pen_path(pen), class: "btn btn-primary btn-sm" %>
+            <% if authenticated? %>
+              <%= link_to "Edit", edit_pen_path(pen), class: "btn btn-outline btn-sm" %>
+              <%= button_to "Delete", pen_path(pen), method: :delete, class: "btn btn-danger btn-sm",
+                    form: { data: { turbo_confirm: "Are you sure you want to delete this pen?" } } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="pagination">
+    <%== @pagy.prev ? link_to("Prev", pens_path(page: @pagy.prev, query: params[:query]), class: "btn btn-outline btn-sm") : "" %>
+    <% @pagy.series.each do |item| %>
+      <% if item.is_a?(Integer) %>
+        <%= link_to item, pens_path(page: item, query: params[:query]) %>
+      <% elsif item.is_a?(String) %>
+        <em class="current"><%= item %></em>
+      <% elsif item == :gap %>
+        <span class="gap">&hellip;</span>
+      <% end %>
+    <% end %>
+    <%== @pagy.next ? link_to("Next", pens_path(page: @pagy.next, query: params[:query]), class: "btn btn-outline btn-sm") : "" %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <p>
+      <% if params[:query].present? %>
+        No pens match "<%= params[:query] %>".
+      <% else %>
+        No pens in the collection yet.
+      <% end %>
+    </p>
+    <% if authenticated? %>
+      <%= link_to "Add Your First Pen", new_pen_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+<% end %>

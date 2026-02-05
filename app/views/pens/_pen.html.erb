@@ -1,17 +1,15 @@
-<div id="<%= dom_id pen %>">
-  <p>
-    <strong>Title:</strong>
-    <%= pen.title %>
-  </p>
+<div id="<%= dom_id pen %>" class="pen-card">
+  <% if pen.image.attached? %>
+    <%= image_tag pen.image.variant(resize_to_limit: [600, 400]), class: "pen-card-image", alt: pen.title %>
+  <% else %>
+    <div class="pen-card-placeholder">No image</div>
+  <% end %>
 
-  <p>
-    <strong>Description:</strong>
-    <%= pen.description %>
-  </p>
-
-  <p>
-    <strong>Price:</strong>
-    <%= pen.price %>
-  </p>
-
+  <div class="pen-card-body">
+    <h2 class="pen-card-title"><%= pen.title %></h2>
+    <div class="pen-card-price"><%= number_to_currency(pen.price) %></div>
+    <% if pen.description.present? %>
+      <p class="pen-card-description"><%= truncate(pen.description, length: 100) %></p>
+    <% end %>
+  </div>
 </div>

@@ -1,16 +1,25 @@
-# this is our pen blueprint
-# like a specification sheet for what makes a pen a pen in our gallery
 class Pen < ApplicationRecord
-  # each pen can have one photo
-  # because one glamour shot is all we need
   has_one_attached :image
 
-  # making sure we have the essential details
-  # no pen left behind without a title or price!
   validates :title, presence: true
   validates :price, presence: true, numericality: { greater_than: 0 }
+  validate :acceptable_image, if: -> { image.attached? }
 
-  # price has to be a real number
-  # no accepting "many dollars" as a price!
-  validates :price, numericality: true
+  scope :search, ->(query) {
+    where("title LIKE :q OR description LIKE :q", q: "%#{sanitize_sql_like(query)}%") if query.present?
+  }
+
+  scope :recent, -> { order(created_at: :desc) }
+
+  private
+
+  def acceptable_image
+    unless image.blob.content_type.in?(%w[image/png image/jpeg image/gif image/webp])
+      errors.add(:image, "must be a PNG, JPEG, GIF, or WebP image")
+    end
+
+    if image.blob.byte_size > 10.megabytes
+      errors.add(:image, "must be less than 10 MB")
+    end
+  end
 end

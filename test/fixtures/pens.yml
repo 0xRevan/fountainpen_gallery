@@ -1,11 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  title: MyString
-  description: MyText
-  price: 9.99
+  title: Pilot Metropolitan
+  description: A sleek, affordable fountain pen with a fine nib. Great for everyday writing.
+  price: 29.99
 
 two:
-  title: MyString
-  description: MyText
-  price: 9.99
+  title: LAMY Safari
+  description: A classic German-engineered pen with an ergonomic grip section. Popular among students and professionals.
+  price: 39.95
+
+three:
+  title: Sailor Pro Gear
+  description: A premium Japanese fountain pen with a 21k gold nib. Known for its excellent feedback.
+  price: 249.00
