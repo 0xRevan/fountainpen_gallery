@@ -23,7 +23,7 @@
         <% if authenticated? %>
           <span class="nav-user"><%= Current.user&.email_address %></span>
           <%= link_to "Add New Pen", new_pen_path %>
-          <%= button_to "Sign Out", session_path, method: :delete, class: "btn btn-sm btn-outline", style: "color: white; border-color: rgba(255,255,255,0.3);" %>
+          <%= button_to "Sign Out", session_path, method: :delete, class: "btn btn-sm btn-outline" %>
         <% else %>
           <%= link_to "Sign In", new_session_path %>
         <% end %>

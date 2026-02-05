@@ -94,6 +94,16 @@ img {
   padding: 0.5rem;
 }
 
+.nav .btn-outline {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.nav .btn-outline:hover {
+  background-color: #34495e;
+  color: white;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
