@@ -1,0 +1,20 @@
+one:
+  name: Iroshizuku Kon-Peki
+  brand: Pilot
+  color: Blue
+  description: A vivid cerulean blue ink with excellent shading. One of the most popular fountain pen inks worldwide.
+  price: 28.00
+
+two:
+  name: Oxblood
+  brand: Diamine
+  color: Red
+  description: A rich, dark red ink reminiscent of dried blood. Popular for journaling and letter writing.
+  price: 7.95
+
+three:
+  name: Apache Sunset
+  brand: Noodler's
+  color: Orange
+  description: A vibrant orange ink with dramatic red shading. Excellent shading properties on quality paper.
+  price: 12.50

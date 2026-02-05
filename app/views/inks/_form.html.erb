@@ -1,0 +1,44 @@
+<%= form_with(model: ink) do |f| %>
+  <% if ink.errors.any? %>
+    <div class="form-errors">
+      <h2><%= pluralize(ink.errors.count, "error") %> prevented this ink from being saved:</h2>
+      <ul>
+        <% ink.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, "Ink Name", class: "form-label" %>
+    <%= f.text_field :name, class: "form-input", placeholder: "e.g., Iroshizuku Kon-Peki" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :brand, "Brand", class: "form-label" %>
+    <%= f.text_field :brand, class: "form-input", placeholder: "e.g., Pilot" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :color, "Color", class: "form-label" %>
+    <%= f.text_field :color, class: "form-input", placeholder: "e.g., Blue" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Description", class: "form-label" %>
+    <%= f.text_area :description, class: "form-input", rows: 5, placeholder: "How does this ink write and look?" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :price, "Price", class: "form-label" %>
+    <%= f.number_field :price, class: "form-input", step: 0.01, min: 0.01 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :image, "Photo", class: "form-label" %>
+    <%= f.file_field :image, class: "form-input", accept: "image/png,image/jpeg,image/webp,image/gif" %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

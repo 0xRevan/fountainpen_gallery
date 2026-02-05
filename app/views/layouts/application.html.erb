@@ -18,11 +18,14 @@
     <nav class="nav">
       <div class="nav-left">
         <%= link_to "Fountain Pen Gallery", root_path, class: "nav-brand" %>
+        <%= link_to "Pens", pens_path %>
+        <%= link_to "Inks", inks_path %>
       </div>
       <div class="nav-right">
         <% if authenticated? %>
           <span class="nav-user"><%= Current.user&.email_address %></span>
-          <%= link_to "Add New Pen", new_pen_path %>
+          <%= link_to "Add Pen", new_pen_path %>
+          <%= link_to "Add Ink", new_ink_path %>
           <%= button_to "Sign Out", session_path, method: :delete, class: "btn btn-sm btn-outline" %>
         <% else %>
           <%= link_to "Sign In", new_session_path %>

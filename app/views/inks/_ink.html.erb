@@ -1,0 +1,22 @@
+<div id="<%= dom_id ink %>" class="ink-card">
+  <% if ink.image.attached? %>
+    <%= image_tag ink.image.variant(resize_to_limit: [600, 400]), class: "ink-card-image", alt: ink.name %>
+  <% else %>
+    <div class="ink-card-placeholder">
+      <span class="ink-swatch" style="background-color: <%= ink.color.downcase %>"></span>
+    </div>
+  <% end %>
+
+  <div class="ink-card-body">
+    <h2 class="ink-card-title"><%= ink.name %></h2>
+    <div class="ink-card-brand"><%= ink.brand %></div>
+    <div class="ink-card-meta">
+      <span class="ink-color-dot" style="background-color: <%= ink.color.downcase %>"></span>
+      <%= ink.color %>
+      <span class="ink-card-price"><%= number_to_currency(ink.price) %></span>
+    </div>
+    <% if ink.description.present? %>
+      <p class="ink-card-description"><%= truncate(ink.description, length: 100) %></p>
+    <% end %>
+  </div>
+</div>

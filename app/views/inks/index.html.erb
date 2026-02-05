@@ -1,0 +1,76 @@
+<div class="page-header">
+  <h1>My Ink Collection</h1>
+
+  <%= form_with url: inks_path, method: :get, class: "search-form", data: { turbo_action: "advance" } do |f| %>
+    <%= f.search_field :query, value: params[:query], class: "search-input", placeholder: "Search inks..." %>
+    <%= f.submit "Search", class: "btn btn-primary btn-sm" %>
+    <% if params[:query].present? %>
+      <%= link_to "Clear", inks_path, class: "btn btn-outline btn-sm" %>
+    <% end %>
+  <% end %>
+</div>
+
+<% if @inks.any? %>
+  <div class="gallery">
+    <% @inks.each do |ink| %>
+      <div class="ink-card">
+        <% if ink.image.attached? %>
+          <%= image_tag ink.image.variant(resize_to_limit: [600, 400]), class: "ink-card-image", alt: ink.name %>
+        <% else %>
+          <div class="ink-card-placeholder">
+            <span class="ink-swatch" style="background-color: <%= ink.color.downcase %>"></span>
+          </div>
+        <% end %>
+
+        <div class="ink-card-body">
+          <h2 class="ink-card-title"><%= ink.name %></h2>
+          <div class="ink-card-brand"><%= ink.brand %></div>
+          <div class="ink-card-meta">
+            <span class="ink-color-dot" style="background-color: <%= ink.color.downcase %>"></span>
+            <%= ink.color %>
+            <span class="ink-card-price"><%= number_to_currency(ink.price) %></span>
+          </div>
+          <% if ink.description.present? %>
+            <p class="ink-card-description"><%= truncate(ink.description, length: 100) %></p>
+          <% end %>
+
+          <div class="ink-card-actions">
+            <%= link_to "View", ink_path(ink), class: "btn btn-primary btn-sm" %>
+            <% if authenticated? %>
+              <%= link_to "Edit", edit_ink_path(ink), class: "btn btn-outline btn-sm" %>
+              <%= button_to "Delete", ink_path(ink), method: :delete, class: "btn btn-danger btn-sm",
+                    form: { data: { turbo_confirm: "Are you sure you want to delete this ink?" } } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="pagination">
+    <%== @pagy.prev ? link_to("Prev", inks_path(page: @pagy.prev, query: params[:query]), class: "btn btn-outline btn-sm") : "" %>
+    <% @pagy.series.each do |item| %>
+      <% if item.is_a?(Integer) %>
+        <%= link_to item, inks_path(page: item, query: params[:query]) %>
+      <% elsif item.is_a?(String) %>
+        <em class="current"><%= item %></em>
+      <% elsif item == :gap %>
+        <span class="gap">&hellip;</span>
+      <% end %>
+    <% end %>
+    <%== @pagy.next ? link_to("Next", inks_path(page: @pagy.next, query: params[:query]), class: "btn btn-outline btn-sm") : "" %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <p>
+      <% if params[:query].present? %>
+        No inks match "<%= params[:query] %>".
+      <% else %>
+        No inks in the collection yet.
+      <% end %>
+    </p>
+    <% if authenticated? %>
+      <%= link_to "Add Your First Ink", new_ink_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+<% end %>

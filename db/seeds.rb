@@ -55,3 +55,73 @@ pens_data.each do |pen_attrs|
 end
 
 puts "Created #{Pen.count} pens"
+
+inks_data = [
+  {
+    name: "Iroshizuku Kon-Peki",
+    brand: "Pilot",
+    color: "Blue",
+    description: "A vivid cerulean blue ink inspired by the deep blue sky. Part of Pilot's premium Iroshizuku line, it offers exceptional flow, beautiful shading, and a touch of sheen on quality paper. One of the most popular fountain pen inks worldwide.",
+    price: 28.00
+  },
+  {
+    name: "Oxblood",
+    brand: "Diamine",
+    color: "Red",
+    description: "A rich, dark red ink reminiscent of dried blood. This deeply saturated ink is popular for journaling and letter writing. Diamine inks are known for their excellent value and wide color range.",
+    price: 7.95
+  },
+  {
+    name: "Apache Sunset",
+    brand: "Noodler's",
+    color: "Orange",
+    description: "A vibrant orange ink with dramatic red shading that evokes a desert sunset. One of the best shading inks available. Performs beautifully with wet nibs and absorbent paper.",
+    price: 12.50
+  },
+  {
+    name: "Yama-Budo",
+    brand: "Pilot",
+    color: "Purple",
+    description: "A gorgeous wine-berry purple from Pilot's Iroshizuku line. Named after wild mountain grapes, it has a rich magenta-purple hue with lovely shading. Professional enough for office use while still being distinctive.",
+    price: 28.00
+  },
+  {
+    name: "Shin-Kai",
+    brand: "Sailor",
+    color: "Blue-Black",
+    description: "A refined blue-black from Sailor's Jentle line. Named after the deep sea, it provides a sophisticated dark blue that is professional and easy to read. Excellent behavior in most fountain pens.",
+    price: 20.00
+  },
+  {
+    name: "Emerald of Chivor",
+    brand: "J. Herbin",
+    color: "Teal",
+    description: "A legendary ink with gold shimmer particles suspended in a teal-green base. Named after the Colombian emerald mines, it displays stunning color shifts and sparkle. A favorite among ink collectors.",
+    price: 28.00
+  },
+  {
+    name: "Heart of Darkness",
+    brand: "Noodler's",
+    color: "Black",
+    description: "One of the darkest, most saturated black inks on the market. Bulletproof and waterproof once dry, making it ideal for important documents. Fast drying with minimal feathering.",
+    price: 12.50
+  },
+  {
+    name: "Ku-Jaku",
+    brand: "Pilot",
+    color: "Teal",
+    description: "A stunning peacock-inspired teal from the Iroshizuku line. It shifts between blue and green depending on the nib wetness and paper. Superb shading properties make every stroke unique.",
+    price: 28.00
+  }
+]
+
+inks_data.each do |ink_attrs|
+  Ink.find_or_create_by!(name: ink_attrs[:name]) do |ink|
+    ink.brand = ink_attrs[:brand]
+    ink.color = ink_attrs[:color]
+    ink.description = ink_attrs[:description]
+    ink.price = ink_attrs[:price]
+  end
+end
+
+puts "Created #{Ink.count} inks"
